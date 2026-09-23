@@ -351,6 +351,7 @@ create_renovate() {
 remove_remnants() {
 
 	# Remove remnants
+	[[ -f "README.md" ]] && perl -pi -e 's/(<p><img src="\.assets\/icon\.avif" align="center" width=")[^"]*("><\/p>)/${1}128${2}/g' "README.md"
 	[[ -f "README.md" ]] && perl -pi -e 's/blank\.gif/spacer.gif/g' "README.md"
 	rm -f ".assets/blank.gif"
 	rm -f ".git/hooks/commit-msg"
@@ -363,8 +364,8 @@ remove_remnants() {
 	rm -f "AGENTS.md"
 	rm -f "CLAUDE.md"
 	rm -f "LICENSE.md"
-	rm -f "package.json"
 	rm -f "UNLICENSE.md"
+	rm -f "package.json"
 	rm -rf "node_modules"
 
 }
