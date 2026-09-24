@@ -14,10 +14,10 @@
   "commitlint": {
     "extends": ["@commitlint/config-conventional"],
     "rules": {
+      "body-empty": [2, "always"],
       "header-case": [2, "always", "lower-case"],
-      "header-min-length": [2, "always", 62],
       "header-max-length": [2, "always", 70],
-      "body-empty": [2, "always"]
+      "header-min-length": [2, "always", 62]
     }
   },
   "simple-git-hooks": {

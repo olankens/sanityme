@@ -61,10 +61,10 @@ create_commitlint() {
 		pkg.commitlint = {
 		  extends: ["@commitlint/config-conventional"],
 		  rules: {
+		    "body-empty": [2, "always"],
 		    "header-case": [2, "always", "lower-case"],
-		    "header-min-length": [2, "always", 62],
 		    "header-max-length": [2, "always", 70],
-		    "body-empty": [2, "always"]
+		    "header-min-length": [2, "always", 62]
 		  }
 		};
 		pkg["simple-git-hooks"] = {
@@ -77,9 +77,9 @@ create_commitlint() {
 	./node_modules/.bin/simple-git-hooks
 
 	# Verify PRs
-	local outfile=".github/workflows/ci-validate-pr-title.yml"
+	local outfile=".github/workflows/ci-verify-pr-title.yml"
 	mkdir -p "$(dirname "$outfile")" && cat >"$outfile" <<-'EOD'
-		name: "📘 : Validate PR Title"
+		name: "📘 : Verify PR Title"
 		on:
 		  pull_request:
 		    types: [opened, edited, reopened]
@@ -104,9 +104,9 @@ create_commitlint() {
 	EOD
 
 	# Verify commits
-	local outfile=".github/workflows/ci-validate-commit-message.yml"
+	local outfile=".github/workflows/ci-verify-commit-message.yml"
 	cat >"$outfile" <<-'EOD'
-		name: "📘 : Validate Commit Message"
+		name: "📘 : Verify Commit"
 		on:
 		  push:
 		    branches: ["**"]
@@ -216,9 +216,9 @@ create_license() {
 	EOF
 
 	# Create workflow
-	local outfile=".github/workflows/op-bump-copyright.yml"
+	local outfile=".github/workflows/op-update-copyright.yml"
 	mkdir -p "$(dirname "$outfile")" && cat >"$outfile" <<-'EOF'
-		name: "📙 : Bump Copyright"
+		name: "📙 : Update Copyright"
 		on:
 		  schedule:
 		    - cron: "0 0 1 1 *"
@@ -248,7 +248,7 @@ create_license() {
 		          git config user.name "github-actions[bot]"
 		          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 		          git add LICENSE.md
-		          git diff --staged --quiet || git commit -m "chore: bump the copyright year in the project license file to $(date +%Y)"
+		          git diff --staged --quiet || git commit -m "chore: update copyright year in the project license file to $(date +%Y)"
 		          git push
 	EOF
 
@@ -355,9 +355,11 @@ remove_remnants() {
 	[[ -f "README.md" ]] && perl -pi -e 's/blank\.gif/spacer.gif/g' "README.md"
 	rm -f ".assets/blank.gif"
 	rm -f ".git/hooks/commit-msg"
-	rm -f ".github/dependabot.yml"
 	rm -f ".github/FUNDING.yml"
+	rm -f ".github/dependabot.yml"
 	rm -f ".github/renovate.json"
+	rm -f ".github/workflows/cd-release-please.yml"
+	rm -f ".github/workflows/ci-validate-commit-message.yml"
 	rm -f ".github/workflows/ci-validate-pr-title.yml"
 	rm -f ".github/workflows/op-bump-copyright.yml"
 	rm -f ".github/workflows/op-update-copyright.yml"
