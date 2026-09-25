@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [1.1.0](https://github.com/olankens/sanityme/compare/v1.0.1...v1.1.0) (2026-09-25)
+
+### FEATURES
+
+* revamp remnant removals and rename assets and workflow files ([d5b8e18](https://github.com/olankens/sanityme/commit/d5b8e187287b3c858ce003ad6828db8e94430769))
+
+---
+
 ## [1.0.1](https://github.com/olankens/sanityme/compare/v1.0.0...v1.0.1) (2026-09-23)
 
 ### BUGFIXES
