@@ -1,4 +1,4 @@
-name: "📙 : Bump Copyright"
+name: "📙 : Update Copyright"
 on:
   schedule:
     - cron: "0 0 1 1 *"
@@ -28,5 +28,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add LICENSE.md
-          git diff --staged --quiet || git commit -m "chore: bump the copyright year in the project license file to $(date +%Y)"
+          git diff --staged --quiet || git commit -m "chore: update copyright year in the project license file to $(date +%Y)"
           git push

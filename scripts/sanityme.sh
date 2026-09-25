@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# shellcheck disable=SC2016,SC2155
+# shellcheck disable=SC2016,SC2059,SC2155
 # shellcheck shell=bash
 
 # region UTILITIES
@@ -12,9 +12,9 @@ create_agents() {
 
 	# Update AGENTS.md
 	if [[ ! -f "AGENTS.md" ]]; then
-		echo '# CONVENTIONS' >"AGENTS.md"
+		echo '# AGENTS' >"AGENTS.md"
 	else
-		sed -i '' '1,/^# /s/^# .*/# CONVENTIONS/' AGENTS.md
+		sed -i '' '1,/^# /s/^# .*/# AGENTS/' AGENTS.md
 	fi
 
 }
@@ -261,12 +261,13 @@ create_readme() {
 
 	# Create assets
 	local deposit=".assets" && mkdir -p "$deposit"
+	local baseurl="https://raw.githubusercontent.com/olankens/sanityme/HEAD/.assets"
 	magick -size 10x10 xc:none -strip "$deposit/spacer.gif"
-	magick -size 10x10 xc:"#646464" -strip "$deposit/divider.gif"
-	[[ ! -f "$deposit/icon.avif" ]] && curl -L "https://raw.githubusercontent.com/olankens/sanityme/HEAD/.assets/default.avif" -o "$deposit/icon.avif"
-	[[ ! -f "README.md" && ! -f "$deposit/preview-01.avif" ]] && curl -L "https://raw.githubusercontent.com/olankens/sanityme/HEAD/.assets/preview.avif" -o "$deposit/preview-01.avif"
-	[[ ! -f "README.md" && ! -f "$deposit/preview-02.avif" ]] && curl -L "https://raw.githubusercontent.com/olankens/sanityme/HEAD/.assets/preview.avif" -o "$deposit/preview-02.avif"
-	[[ ! -f "README.md" ]] && curl -L "https://raw.githubusercontent.com/olankens/sanityme/HEAD/.assets/unknown.svg" -o "$deposit/unknown.svg"
+	magick -size 10x10 xc:"#646464" -strip "$deposit/splitter.gif"
+	[[ ! -f "$deposit/icon.avif" ]] && curl -L "$baseurl/template-icon.avif" -o "$deposit/icon.avif"
+	[[ ! -f "README.md" && ! -f "$deposit/preview-01.avif" ]] && curl -L "$baseurl/template-preview.avif" -o "$deposit/preview-01.avif"
+	[[ ! -f "README.md" && ! -f "$deposit/preview-02.avif" ]] && curl -L "$baseurl/template-preview.avif" -o "$deposit/preview-02.avif"
+	[[ ! -f "README.md" ]] && curl -L "$baseurl/logo-unknown.svg" -o "$deposit/logo-unknown.svg"
 
 	# Create README.md
 	[[ -f "README.md" ]] || cat >"README.md" <<-EOF
@@ -283,11 +284,11 @@ create_readme() {
 		    ...
 		  </div>&nbsp;</td></tr></tbody>
 		  <tbody><tr><td align="center" width="99999">
-		    <a href="#"><img src=".assets/unknown.svg" align="center" width="56"></a>
-		    <picture><img src=".assets/divider.gif" align="center" height="40" width="1"/></picture>
-		    <a href="#"><img src=".assets/unknown.svg" align="center" width="56"></a>
-		    <picture><img src=".assets/divider.gif" align="center" height="40" width="1"/></picture>
-		    <a href="#"><img src=".assets/unknown.svg" align="center" width="56"></a>
+		    <a href="#"><img src=".assets/logo-unknown.svg" align="center" width="56"></a>
+		    <picture><img src=".assets/splitter.gif" align="center" height="40" width="1"/></picture>
+		    <a href="#"><img src=".assets/logo-unknown.svg" align="center" width="56"></a>
+		    <picture><img src=".assets/splitter.gif" align="center" height="40" width="1"/></picture>
+		    <a href="#"><img src=".assets/logo-unknown.svg" align="center" width="56"></a>
 		  </td></tr></tbody>
 		</table>
 
@@ -345,30 +346,6 @@ create_renovate() {
 			}
 		EOF
 	fi
-
-}
-
-remove_remnants() {
-
-	# Remove remnants
-	[[ -f "README.md" ]] && perl -pi -e 's/(<p><img src="\.assets\/icon\.avif" align="center" width=")[^"]*("><\/p>)/${1}128${2}/g' "README.md"
-	[[ -f "README.md" ]] && perl -pi -e 's/blank\.gif/spacer.gif/g' "README.md"
-	rm -f ".assets/blank.gif"
-	rm -f ".git/hooks/commit-msg"
-	rm -f ".github/FUNDING.yml"
-	rm -f ".github/dependabot.yml"
-	rm -f ".github/renovate.json"
-	rm -f ".github/workflows/cd-release-please.yml"
-	rm -f ".github/workflows/ci-validate-commit-message.yml"
-	rm -f ".github/workflows/ci-validate-pr-title.yml"
-	rm -f ".github/workflows/op-bump-copyright.yml"
-	rm -f ".github/workflows/op-update-copyright.yml"
-	rm -f "AGENTS.md"
-	rm -f "CLAUDE.md"
-	rm -f "LICENSE.md"
-	rm -f "UNLICENSE.md"
-	rm -f "package.json"
-	rm -rf "node_modules"
 
 }
 
@@ -443,6 +420,36 @@ output_welcome() {
 	welcome+="║${b}║${e}║"$'\n'
 	welcome+="╚${t}╩${r}╝"
 	printf "\033[92m%s\033[00m\n\n" "$welcome"
+
+}
+
+revamp_project() {
+
+	# Remove remnants
+	rm -f ".assets/blank.gif"
+	rm -f ".assets/divider.gif"
+	rm -f ".git/hooks/commit-msg"
+	rm -f ".github/FUNDING.yml"
+	rm -f ".github/dependabot.yml"
+	rm -f ".github/renovate.json"
+	rm -f ".github/workflows/cd-release-please.yml"
+	rm -f ".github/workflows/ci-validate-commit-message.yml"
+	rm -f ".github/workflows/ci-validate-pr-title.yml"
+	rm -f ".github/workflows/op-bump-copyright.yml"
+	rm -f ".github/workflows/op-update-copyright.yml"
+	rm -f "AGENTS.md"
+	rm -f "CLAUDE.md"
+	rm -f "LICENSE.md"
+	rm -f "UNLICENSE.md"
+	rm -f "package.json"
+	rm -rf "node_modules"
+
+	# Update resources
+	[[ -d ".assets" ]] && for file in ".assets/"*.svg; do [[ -e "$file" && "${file##*/}" != logo-* ]] && mv "$file" ".assets/logo-${file##*/}"; done
+	[[ -f "README.md" ]] && perl -pi -e 's/(<p><img src="\.assets\/icon\.avif" align="center" width=")[^"]*("><\/p>)/${1}128${2}/g' "README.md"
+	[[ -f "README.md" ]] && perl -pi -e 's/(src=")(?:\.assets\/)?(?!\.assets\/|logo-)([^"\/:]+\.svg")/${1}.assets\/logo-${2}/g' "README.md"
+	[[ -f "README.md" ]] && perl -pi -e 's/blank\.gif/spacer.gif/g' "README.md"
+	[[ -f "README.md" ]] && perl -pi -e 's/divider\.gif/splitter.gif/g' "README.md"
 
 }
 
@@ -521,7 +528,7 @@ main() {
 
 	# Handle functions
 	local members=(
-		"remove_remnants"
+		"revamp_project"
 		"update_gh"
 		"create_agents $agents"
 		"create_commitlint $commitlint"

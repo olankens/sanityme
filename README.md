@@ -12,13 +12,13 @@
     Bash script automating GitHub CLI, AGENTS.md, Commitlint, Renovate, repository hardening, README, and MIT license setup, giving projects clean, conventional foundations from the first commit and day one.
   </div>&nbsp;</td></tr></tbody>
   <tbody><tr><td align="center" width="99999">
-    <a href="https://github.com"><img src=".assets/github.svg" align="center" width="56"></a>
-    <picture><img src=".assets/divider.gif" align="center" height="40" width="1"/></picture>
-    <a href="https://github.com/renovatebot/renovate"><img src=".assets/renovate.svg" align="center" width="56"></a>
-    <picture><img src=".assets/divider.gif" align="center" height="40" width="1"/></picture>
-    <a href="https://commitlint.js.org"><img src=".assets/commitlint.svg" align="center" width="56"></a>
-    <picture><img src=".assets/divider.gif" align="center" height="40" width="1"/></picture>
-    <a href="https://wikipedia.org/wiki/Bash_(Unix_shell)"><img src=".assets/bash.svg" align="center" width="56"></a>
+    <a href="https://github.com"><img src=".assets/logo-github.svg" align="center" width="56"></a>
+    <picture><img src=".assets/splitter.gif" align="center" height="40" width="1"/></picture>
+    <a href="https://github.com/renovatebot/renovate"><img src=".assets/logo-renovate.svg" align="center" width="56"></a>
+    <picture><img src=".assets/splitter.gif" align="center" height="40" width="1"/></picture>
+    <a href="https://commitlint.js.org"><img src=".assets/logo-commitlint.svg" align="center" width="56"></a>
+    <picture><img src=".assets/splitter.gif" align="center" height="40" width="1"/></picture>
+    <a href="https://wikipedia.org/wiki/Bash_(Unix_shell)"><img src=".assets/logo-bash.svg" align="center" width="56"></a>
   </td></tr></tbody>
 </table>
 
