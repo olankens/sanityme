@@ -338,9 +338,6 @@ create_renovate() {
 			    {
 			      "matchUpdateTypes": ["patch", "minor"],
 			      "automerge": true
-			    }, {
-			      "matchUpdateTypes": ["major"],
-			      "dependencyDashboardApproval": true
 			    }
 			  ]
 			}
