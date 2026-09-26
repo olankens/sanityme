@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## [1.2.0](https://github.com/olankens/sanityme/compare/v1.1.0...v1.2.0) (2026-09-26)
+
+### FEATURES
+
+* drop dashboard approval requirement for major renovate updates ([7894d8f](https://github.com/olankens/sanityme/commit/7894d8f5035729c5978bd70cb84e9c89e8b61e2e))
+
+### BUGFIXES
+
+* rewrite only non-renamed asset svg references in readme revamp ([7b3ac7b](https://github.com/olankens/sanityme/commit/7b3ac7b7b5a868ae96eb2506e0541371c9065d72))
+
+---
+
 ## [1.1.0](https://github.com/olankens/sanityme/compare/v1.0.1...v1.1.0) (2026-09-25)
 
 ### FEATURES
