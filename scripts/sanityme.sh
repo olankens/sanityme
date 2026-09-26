@@ -444,7 +444,7 @@ revamp_project() {
 	# Update resources
 	[[ -d ".assets" ]] && for file in ".assets/"*.svg; do [[ -e "$file" && "${file##*/}" != logo-* ]] && mv "$file" ".assets/logo-${file##*/}"; done
 	[[ -f "README.md" ]] && perl -pi -e 's/(<p><img src="\.assets\/icon\.avif" align="center" width=")[^"]*("><\/p>)/${1}128${2}/g' "README.md"
-	[[ -f "README.md" ]] && perl -pi -e 's/(src=")(?:\.assets\/)?(?!\.assets\/|logo-)([^"\/:]+\.svg")/${1}.assets\/logo-${2}/g' "README.md"
+	[[ -f "README.md" ]] && perl -pi -e 's/(src=")\.assets\/(?!logo-)([^"\/:]+\.svg")/${1}.assets\/logo-${2}/g' "README.md"
 	[[ -f "README.md" ]] && perl -pi -e 's/blank\.gif/spacer.gif/g' "README.md"
 	[[ -f "README.md" ]] && perl -pi -e 's/divider\.gif/splitter.gif/g' "README.md"
 
