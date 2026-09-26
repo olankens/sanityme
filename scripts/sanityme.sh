@@ -106,7 +106,7 @@ create_commitlint() {
 	# Verify commits
 	local outfile=".github/workflows/ci-verify-commit-message.yml"
 	cat >"$outfile" <<-'EOD'
-		name: "📘 : Verify Commit"
+		name: "📘 : Verify Commit Message"
 		on:
 		  push:
 		    branches: ["**"]
