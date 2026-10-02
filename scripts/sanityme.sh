@@ -23,11 +23,11 @@ create_agents() {
 		* Always keep every commit subject short, concise and easy to scan.
 		* Always omit the scope when the project repo is not a monorepo.
 		* Always start every commit subject with a clear indicative verb.
-		* Always use `shared` as scope when multiple workspaces are affected.
 		* Always use the `and` word before the final item in all enumeration.
 		* Always use the affected workspace or package name as commit scope.
 		* Never add `co-authored-by` trailers from any AI tool or agent.
 		* Never classify shell script changes as the `docs` commit type.
+		* Never use the `--no-verify` flag to bypass local commit hooks.
 	EOF
 	awk '/^## COMMIT MESSAGES$/{print "";system("cat /tmp/s");x=1;next}/^## /{x=0}!x' AGENTS.md >AGENTS.md.tmp && mv AGENTS.md.tmp AGENTS.md
 	if ! grep -q '^## COMMIT MESSAGES$' AGENTS.md; then printf '\n' >>AGENTS.md && cat /tmp/s >>AGENTS.md; fi
