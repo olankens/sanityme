@@ -63,5 +63,5 @@ curl -fsSL https://github.com/olankens/sanityme/releases/latest/download/sanitym
 ### PREPARE NODE TOOLING
 
 ```shell
-pnpm install || npm install
+command -v pnpm >/dev/null && pnpm install || npm install
 ```
