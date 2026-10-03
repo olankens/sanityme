@@ -120,12 +120,12 @@ create_commitlint() {
 	EOD
 
 	# Verify commits
-	local outfile=".github/workflows/ci-verify-commit-message.yml"
+	local outfile=".github/workflows/ci-verify-commits.yml"
 	cat >"$outfile" <<-'EOD'
-		name: "📘 : Verify Commit Message"
+		name: "📘 : Verify Commits"
 		on:
 		  push:
-		    branches: ["**"]
+		    branches: [ "**" ]
 		permissions:
 		  contents: read
 		jobs:
@@ -148,10 +148,23 @@ create_commitlint() {
 		            };
 		          EOF
 		          if [[ "$BEFORE" == "0000000000000000000000000000000000000000" ]]; then
-		            git show --format='%B' --no-patch "$SHA" | npx --yes -p @commitlint/cli -p @commitlint/config-conventional commitlint --config "$RUNNER_TEMP/commitlint.config.cjs"
+		            commits="$(git rev-list --reverse "$SHA")"
+		          elif git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+		            commits="$(git rev-list --reverse "$BEFORE..$SHA")"
 		          else
-		            npx --yes -p @commitlint/cli -p @commitlint/config-conventional commitlint --config "$RUNNER_TEMP/commitlint.config.cjs" --from "$BEFORE" --to "$SHA"
+		            echo "::warning::github.event.before ($BEFORE) is not available locally."
+		            echo "::warning::Falling back to the current commit only."
+		            commits="$SHA"
 		          fi
+		          if [[ -z "$commits" ]]; then
+		            echo "No commits to lint."
+		            exit 0
+		          fi
+		          while read -r commit; do
+		            echo "::group::Linting $commit"
+		            git show --format='%B' --no-patch "$commit" | npx --yes -p @commitlint/cli -p @commitlint/config-conventional commitlint --config "$RUNNER_TEMP/commitlint.config.cjs"
+		            echo "::endgroup::"
+		          done <<< "$commits"
 	EOD
 
 }
@@ -448,6 +461,7 @@ revamp_project() {
 	rm -f ".github/workflows/cd-release-please.yml"
 	rm -f ".github/workflows/ci-validate-commit-message.yml"
 	rm -f ".github/workflows/ci-validate-pr-title.yml"
+	rm -f ".github/workflows/ci-verify-commits.yml"
 	rm -f ".github/workflows/op-bump-copyright.yml"
 	rm -f ".github/workflows/op-update-copyright.yml"
 	rm -f "AGENTS.md"
