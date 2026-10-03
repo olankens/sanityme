@@ -461,6 +461,7 @@ revamp_project() {
 	rm -f ".github/workflows/cd-release-please.yml"
 	rm -f ".github/workflows/ci-validate-commit-message.yml"
 	rm -f ".github/workflows/ci-validate-pr-title.yml"
+	rm -f ".github/workflows/ci-verify-commit-message.yml"
 	rm -f ".github/workflows/ci-verify-commits.yml"
 	rm -f ".github/workflows/op-bump-copyright.yml"
 	rm -f ".github/workflows/op-update-copyright.yml"
