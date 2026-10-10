@@ -504,7 +504,7 @@ main() {
 
 	# Handle globals
 	local heading="SANITYME"
-	local version="0.0.0" # x-release-please-version
+	local version="1.0.0" # x-release-please-version
 	local website="https://github.com/olankens/sanityme"
 
 	# Handle parameters
