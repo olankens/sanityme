@@ -9,7 +9,7 @@
     <a href="https://ko-fi.com/olankens">FUNDING</a>
   </div></td></tr></tbody>
   <tbody><tr><td align="center" width="99999">&nbsp;<div>
-    Bash script for GitHub repo setup with simple commits, AGENTS.md, Renovate, MIT License, README files, and repo security for tidy code base since the first commit was set on day one, designed to scale.
+    Bash script for GitHub repo setup with simple commits, AGENTS.md, Renovate, MIT License, README file, and repo security for small code base since the first commit was set on day one, designed to scale.
   </div>&nbsp;</td></tr></tbody>
   <tbody><tr><td align="center" width="99999">
     <a href="https://github.com"><img src=".assets/logo-github.svg" align="center" width="56"></a>
