@@ -1,0 +1,23 @@
+name: 'Verify Commit'
+on:
+  push:
+    branches: [ '**' ]
+permissions: { }
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    if: ${{ ! (endsWith(github.actor, '[bot]') || endsWith(github.event.head_commit.author.name, '[bot]') || endsWith(github.event.head_commit.committer.name, '[bot]') || contains(github.event.head_commit.author.email, '[bot]') || contains(github.event.head_commit.committer.email, '[bot]')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - run: |
+          curl -fsSL -m 10 --retry 3 'https://raw.githubusercontent.com/olankens/subduing/HEAD/source/subduing.sh' -o "$RUNNER_TEMP/subduing.sh"
+      - env:
+          MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          printf '%s\n' "$MESSAGE" > "$RUNNER_TEMP/commit-msg"
+          sh "$RUNNER_TEMP/subduing.sh" "$RUNNER_TEMP/commit-msg"

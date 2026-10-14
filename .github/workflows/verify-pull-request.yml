@@ -1,0 +1,38 @@
+name: 'Verify Pull Request'
+on:
+  pull_request:
+    types: [ opened, edited, synchronize, reopened ]
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  heading:
+    if: ${{ !endsWith(github.event.pull_request.user.login, '[bot]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -fsSL -m 10 --retry 3 'https://raw.githubusercontent.com/olankens/subduing/HEAD/source/subduing.sh' -o "$RUNNER_TEMP/subduing.sh"
+      - env:
+          HEADING: ${{ github.event.pull_request.title }}
+        run: |
+          printf '%s\n' "$HEADING" > "$RUNNER_TEMP/commit-msg"
+          sh "$RUNNER_TEMP/subduing.sh" "$RUNNER_TEMP/commit-msg"
+  commits:
+    if: ${{ github.event.action != 'edited' && !endsWith(github.event.pull_request.user.login, '[bot]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - run: |
+          curl -fsSL -m 10 --retry 3 'https://raw.githubusercontent.com/olankens/subduing/HEAD/source/subduing.sh' -o "$RUNNER_TEMP/subduing.sh"
+      - env:
+          BASESHA: ${{ github.event.pull_request.base.sha }}
+          HEADSHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          while IFS= read -r message; do
+            printf '%s\n' "$message" > "$RUNNER_TEMP/commit-msg"
+            sh "$RUNNER_TEMP/subduing.sh" "$RUNNER_TEMP/commit-msg"
+          done < <(git log --format='%s' "$BASESHA..$HEADSHA")

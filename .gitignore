@@ -1,0 +1,12 @@
+# JetBrains
+.idea/
+
+# MacOS
+.DS_Store
+
+# Project
+source/*
+!source/*.sh
+
+# Vscode
+.vscode/
