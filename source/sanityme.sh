@@ -15,7 +15,7 @@ create_agents() {
 		## COMMIT MESSAGES
 
 		- Always follow the project's current git commit-msg hook rules for every commit message.
-		- Always use the word and before the final item in every written enumeration in header.
+		- Always use the word and before the final item in every written enumeration in message.
 		- Never use --no-verify to bypass the project's git commit-msg hook under any circumstances.
 	EOF
 	awk '/^## COMMIT MESSAGES$/{print "";system("cat /tmp/s");x=1;next}/^## /{x=0}!x' AGENTS.md >AGENTS.md.tmp && mv AGENTS.md.tmp AGENTS.md
