@@ -410,8 +410,8 @@ revamp_project() {
 	[[ -f "README.md" ]] && perl -pi -e 's/(src=")\.assets\/(?!logo-)(?!store-)([^"\/:]+\.svg")/${1}.assets\/logo-${2}/g' "README.md"
 	[[ -f "README.md" ]] && perl -pi -e 's/blank\.gif/spacer.gif/g' "README.md"
 	[[ -f "README.md" ]] && perl -pi -e 's/divider\.gif/splitter.gif/g' "README.md"
-	perl -0pi -e 's/^# Node(?:\.js)?\n.*?(?=\n\n|\z)//ms' .gitignore || true
-	cat -s .gitignore >.gitignore.tmp && mv .gitignore.tmp .gitignore
+	[[ -f ".gitignore" ]] && perl -0pi -e 's/^# Node(?:\.js)?\n.*?(?=\n\n|\z)//ms' .gitignore || true
+	[[ -f ".gitignore" ]] && cat -s .gitignore >.gitignore.tmp && mv .gitignore.tmp .gitignore
 	mv ".github/workflows/cd-create-release.yml" ".github/workflows/create-release.yml" || true
 
 }
