@@ -50,14 +50,14 @@
 ## FEATURES
 
 <table>
-  <tbody><tr><td width="99999">Generates AGENTS configuration files automatically to establish consistent coding standards and commit message rules across every modern developer workflow inside repository structure today</td><td>✅</td></tr></tbody>
-  <tbody><tr><td>Installs conventional commit hooks through <a href="https://github.com/olankens/subduing">Subduing</a> integration that validates every message format before allowing remote pushes and branch pull requests to proceed forward successfully today</td><td>✅</td></tr></tbody>
-  <tbody><tr><td>Hardens GitHub repository settings by disabling unused features like discussions, issues, projects, and wiki pages while enforcing safety plus clean rebase merge strategies permanently today</td><td>✅</td></tr></tbody>
-  <tbody><tr><td>Creates MIT license documentation with automatic copyright year updates triggered annually through scheduled GitHub Actions workflows that keep important legal notices current always today</td><td>✅</td></tr></tbody>
-  <tbody><tr><td>Builds complete README templates containing preview images, feature tables, platform compatibility matrices, and installation instructions for immediate project documentation needs today</td><td>✅</td></tr></tbody>
-  <tbody><tr><td>Configures Renovate dependency management with recommended settings that automerge minor plus patch updates while keeping all software project dependencies fresh and secure constantly today</td><td>✅</td></tr></tbody>
-  <tbody><tr><td>Cleans legacy configuration artifacts including outdated workflow files, package manager remnants, and deprecated agent documentation from existing repository structures completely today</td><td>✅</td></tr></tbody>
-  <tbody><tr><td>Provides flexible command line flags enabling selective activation of individual setup modules so development teams customize exactly which automation features apply to their specific needs today</td><td>✅</td></tr></tbody>
+  <tbody><tr><td width="99999">Generate AGENTS configuration files to establish coding standards and commit message rules across developer workflows inside repository structure while maintaining quality throughout lifecycles.</td><td>✅</td></tr></tbody>
+  <tbody><tr><td>Install conventional commit hooks through Subduing integration that validates message formats before allowing remote pushes and branch pull requests to proceed while keeping contributions formatted.</td><td>✅</td></tr></tbody>
+  <tbody><tr><td>Harden GitHub repository settings by disabling discussions, issues, projects, and wiki pages while enforcing clean rebase merge strategies that protect code integrity across development work.</td><td>✅</td></tr></tbody>
+  <tbody><tr><td>Create MIT license documentation with automatic copyright year updates triggered annually through scheduled GitHub Actions workflows that keep legal notices current and ensure compliance over time.</td><td>✅</td></tr></tbody>
+  <tbody><tr><td>Build README templates containing preview images, feature tables, platform compatibility matrices, and installation instructions for projects needing professional documentation ready to share.</td><td>✅</td></tr></tbody>
+  <tbody><tr><td>Configure Renovate dependency management with recommended settings that automerge minor plus patch updates while keeping software dependencies fresh and secure against known external vulnerabilities.</td><td>✅</td></tr></tbody>
+  <tbody><tr><td>Clean legacy configuration artifacts including outdated workflow files, package manager remnants, and deprecated agent documentation from repositories so teams start fresh by avoiding technical debt.</td><td>✅</td></tr></tbody>
+  <tbody><tr><td>Provide flexible command line flags enabling selective activation of individual setup modules so teams customize which automation features apply and skip unnecessary configuration during onboarding.</td><td>✅</td></tr></tbody>
 </table>
 
 ## LEARNING
