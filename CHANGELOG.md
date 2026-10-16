@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [1.0.2](https://github.com/olankens/sanityme/compare/v1.0.1...v1.0.2) (2026-10-16)
+
+### APPENDIX
+
+* remove redundant wording from renovate description in readme ([53d5504](https://github.com/olankens/sanityme/commit/53d550467055d915049917d65fa56f2adea52ae9))
+* reword feature descriptions in readme and update template icon ([23b8ee0](https://github.com/olankens/sanityme/commit/23b8ee00c4b9d80af2f6194360bba55b9986c81d))
+
+---
+
 ## [1.0.1](https://github.com/olankens/sanityme/compare/v1.0.0...v1.0.1) (2026-10-15)
 
 ### BUGFIXES
