@@ -55,7 +55,7 @@
   <tbody><tr><td>Harden GitHub repository settings by disabling discussions, issues, projects, and wiki pages while enforcing clean rebase merge strategies that protect code integrity across development work.</td><td>✅</td></tr></tbody>
   <tbody><tr><td>Create MIT license documentation with automatic copyright year updates triggered annually through scheduled GitHub Actions workflows that keep legal notices current and ensure compliance over time.</td><td>✅</td></tr></tbody>
   <tbody><tr><td>Build README templates containing preview images, feature tables, platform compatibility matrices, and installation instructions for projects needing professional documentation ready to share.</td><td>✅</td></tr></tbody>
-  <tbody><tr><td>Configure Renovate dependency management with recommended settings that automerge minor plus patch updates while keeping software dependencies fresh and secure against known external vulnerabilities.</td><td>✅</td></tr></tbody>
+  <tbody><tr><td>Configure Renovate dependency management with recommended settings that automerge minor plus patch updates while keeping dependencies fresh and secure against known external vulnerabilities.</td><td>✅</td></tr></tbody>
   <tbody><tr><td>Clean legacy configuration artifacts including outdated workflow files, package manager remnants, and deprecated agent documentation from repositories so teams start fresh by avoiding technical debt.</td><td>✅</td></tr></tbody>
   <tbody><tr><td>Provide flexible command line flags enabling selective activation of individual setup modules so teams customize which automation features apply and skip unnecessary configuration during onboarding.</td><td>✅</td></tr></tbody>
 </table>
