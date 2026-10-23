@@ -1,0 +1,137 @@
+#!/bin/sh
+
+reject_commit_using_claude() {
+
+	command -v claude >/dev/null 2>&1 &&
+		timeout 10 claude -p --output-format text --max-turns 1 \
+			--no-session-persistence \
+			"Reply with exactly CLAUDE_OK" 2>/dev/null |
+		grep -qx "CLAUDE_OK" || return 0
+	result=$(printf "Message: %s\nDiff:\n%s\nDoes the message accurately describe the changes? Reply PASS or FAIL." \
+		"$(cat "$1")" "$(git diff --cached)" |
+		timeout 15 claude -p --output-format text --max-turns 1 2>/dev/null) || result=FAIL
+	if [ "$result" = "PASS" ]; then return 0; fi
+	printf "%s\n" "Commit message does not accurately describe the changes" >&2
+	printf "%s\n" "Actual claude response is: '$result'" >&2 && exit 1
+
+}
+
+reject_commit_with_body() {
+
+	actual="$(sed '1,/^$/d' "$1")"
+	if [ -z "$actual" ]; then return 0; fi
+	printf "%s\n" "Commit body must not contain any body" >&2
+	printf "%s\n" "Actual commit body is: '$actual'" >&2 && exit 1
+
+}
+
+reject_commit_with_footer() {
+
+	actual="$(git interpret-trailers --parse "$1")"
+	if [ -z "$actual" ]; then return 0; fi
+	printf "%s\n" "Commit must not contain any footer" >&2
+	printf "%s\n" "Actual commit footer is: '$actual'" >&2 && exit 1
+
+}
+
+reject_header_with_less_than_65_characters() {
+
+	header=$(head -n 1 "$1")
+	if [ ${#header} -ge 65 ]; then return 0; fi
+	printf "%s\n" "Commit header must contain at least 65 characters" >&2
+	printf "%s\n" "Actual header is: '$header' (${#header})" >&2 && exit 1
+
+}
+
+reject_header_with_more_than_70_characters() {
+
+	header=$(head -n 1 "$1")
+	if [ ${#header} -le 70 ]; then return 0; fi
+	printf "%s\n" "Commit header must not exceed 70 characters" >&2
+	printf "%s\n" "Actual header is: '$header' (${#header})" >&2 && exit 1
+
+}
+
+reject_header_with_parenthesis_scope() {
+
+	header="$(head -n 1 "$1")"
+	if ! printf "%s\n" "$header" | grep -Eq '[a-z]+\(\)'; then return 0; fi
+	printf "%s\n" "Commit header must not contain an empty parenthesis scope" >&2
+	printf "%s\n" "Actual commit header is: '$header'" >&2 && exit 1
+
+}
+
+reject_header_with_scope() {
+
+	header="$(head -n 1 "$1")"
+	if ! printf "%s\n" "$header" | grep -Eq '^[a-z]+\([a-zA-Z0-9._/-]+\)'; then return 0; fi
+	printf "%s\n" "Commit header must not contain a scope" >&2
+	printf "%s\n" "Actual commit header is: '$header'" >&2 && exit 1
+
+}
+
+reject_header_with_trailing_punctuation() {
+
+	header=$(head -n 1 "$1")
+	if ! printf "%s\n" "$header" | grep -Eq '[.!?,:;]$'; then return 0; fi
+	printf "%s\n" "Commit header must not end with punctuation (.!?,:;)" >&2
+	printf "%s\n" "Actual header is: '$header'" >&2 && exit 1
+
+}
+
+reject_header_with_weird_characters() {
+
+	header=$(head -n 1 "$1")
+	if ! printf "%s\n" "$header" | grep -Eq '[][@#$%^&*{}<>|\\~`]'; then return 0; fi
+	printf "%s\n" "Commit header must not contain weird characters (][@#\$%^&*{}<>|\\~\`)" >&2
+	printf "%s\n" "Actual header is: '$header'" >&2 && exit 1
+
+}
+
+reject_header_without_conventional_type() {
+
+	header="$(head -n 1 "$1")"
+	if printf "%s\n" "$header" | grep -Eq '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-zA-Z0-9._/-]+\))?!?:[[:space:]]'; then return 0; fi
+	printf "%s\n" "Commit header must follow conventional commits (type(scope): description)" >&2
+	printf "%s\n" "Actual commit header is: '$header'" >&2 && exit 1
+
+}
+
+reject_header_without_lowercasing() {
+
+	header="$(head -n 1 "$1")"
+	if ! printf "%s\n" "$header" | grep -q '[[:upper:]]'; then return 0; fi
+	printf "%s\n" "Commit header must be lowercase" >&2
+	printf "%s\n" "Actual header is: '$header'" >&2 && exit 1
+
+}
+
+reject_header_without_leading_verb() {
+
+	actual="$(head -n 1 "$1" | sed -E 's/^[a-z]+(!)?(\([^)]*\))?:[[:space:]]*//' | awk '{print tolower($1)}' | tr -d '[:punct:]' | tr -d '\r')"
+	if ! command -v curl >/dev/null 2>&1 || ! command -v jq >/dev/null 2>&1; then return 0; fi
+	curl -sf --max-time 3 "https://api.dictionaryapi.dev/api/v2/entries/en/$actual" 2>/dev/null | jq -e 'type=="array" and any(.[].meanings[]?; .partOfSpeech=="verb")' >/dev/null 2>&1 && return 0
+	curl -sf --max-time 3 "https://api.datamuse.com/words?sp=$actual&md=p" 2>/dev/null | jq -e 'any(.[]; .word=="'"$actual"'" and any(.tags[]?; .=="v"))' >/dev/null 2>&1 && return 0
+	printf "%s\n" "Commit subject must start with a verb" >&2
+	printf "%s\n" "Actual commit subject starts with: '$actual'" >&2 && exit 1
+
+}
+
+main() {
+
+	reject_commit_using_claude "$1"
+	reject_commit_with_body "$1"
+	reject_commit_with_footer "$1"
+	reject_header_with_less_than_65_characters "$1"
+	reject_header_with_more_than_70_characters "$1"
+	reject_header_with_parenthesis_scope "$1"
+	reject_header_with_scope "$1"
+	reject_header_with_trailing_punctuation "$1"
+	reject_header_with_weird_characters "$1"
+	reject_header_without_conventional_type "$1"
+	reject_header_without_lowercasing "$1"
+	reject_header_without_leading_verb "$1"
+
+}
+
+main "$@"
